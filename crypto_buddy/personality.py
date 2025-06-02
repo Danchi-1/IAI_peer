@@ -1,43 +1,30 @@
-# personality.py
-
 def welcome_message():
-    return (
-        "👋 Hello! I'm CryptoBuddy, your AI-powered crypto sidekick!\n"
-        "Ask me about any cryptocurrency and I’ll give you insights based on price trends 📈 and sustainability 🔋.\n"
-        "Type 'help' to see what I can do or 'exit' to leave."
-    )
+    return "Hey there! 🚀 I'm CryptoBuddy, your AI-powered financial sidekick. Ready to find you a green and growing crypto? Ask away!"
 
-def help_message():
-    return (
-        "🆘 Here's what I can help you with:\n"
-        "- Ask me about a cryptocurrency (e.g., 'Tell me about Bitcoin')\n"
-        "- I’ll give you advice based on recent price trends and sustainability\n"
-        "- Type 'exit' to end our chat\n"
-        "Ready when you are! 🚀"
-    )
+responses = {
+    "welcome": "Hey there! 🚀 I'm CryptoBuddy, your AI-powered financial sidekick. Let's find you a promising crypto!",
+    "help": "You can ask me about crypto trends, sustainability, or investment tips. Try: 'Which crypto is trending?'",
+    "error": "Oops! That doesn't seem right. Try asking about crypto trends or sustainability.",
+    "goodbye": "Thanks for chatting! 🚀 See you soon!"
+}
 
-def goodbye_message():
-    return "👋 Thanks for chatting with CryptoBuddy! Stay savvy and sustainable out there! 💰🌱"
+def get_personality_response(response_type):
+    """Returns personality-driven messages based on response type."""
+    return responses.get(response_type, responses["error"])
 
-def error_message():
-    return (
-        "😕 Oops! I didn't catch that. You can try asking about a coin or type 'help' for options."
-    )
+# Conversation flow functions
+def handle_trending_query():
+    """Handle queries about trending cryptocurrencies."""
+    from chatbot_core import crypto_db
+    recommend = [coin for coin, data in crypto_db.items() if data["price_trend"] == "rising"]
+    return f"🔥 These cryptos are on the rise: {', '.join(recommend)}!"
 
-def trend_response(trend):
-    if trend == "up":
-        return "📈 This coin is on an upward trend! Now might be a good time to look into it."
-    elif trend == "down":
-        return "📉 Looks like it's dipping. Might want to wait or proceed cautiously."
-    elif trend == "stable":
-        return "➖ The trend is stable right now. Consider your goals before investing."
-    else:
-        return "🤷‍♂️ I couldn't determine the trend right now. Try again later."
+def handle_sustainability_query():
+    """Handle queries about sustainable cryptocurrencies."""
+    from chatbot_core import crypto_db
+    recommend = max(crypto_db, key=lambda x: crypto_db[x]["sustainability_score"])
+    return f"🌱 Invest in {recommend}! It's eco-friendly with a strong future."
 
-def sustainability_response(score):
-    if score >= 8:
-        return "🌿 Highly sustainable project! Backed by strong eco-friendly and technical fundamentals."
-    elif score >= 5:
-        return "♻️ Moderately sustainable. Not bad, but could be better."
-    else:
-        return "⚠️ Low sustainability score. Do your research before investing."
+def handle_general_query():
+    """Handle general or unclear queries."""
+    return "Hmm... I'm not sure about that one. Try asking about trends, sustainability, or investment advice!"
