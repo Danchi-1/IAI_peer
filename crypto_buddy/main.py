@@ -1,18 +1,30 @@
-# CryptoBuddy/main.py
+# main.py - CryptoBuddy Cryptocurrency Advisor
+# ----------------------------------------------------
+# This script fetches real-time cryptocurrency data, updates energy usage values,
+# validates crypto data, and exports structured results in JSON and CSV formats.
+# ----------------------------------------------------
 
 import requests
 import json
 import csv
+import os
 from data_validator import update_crypto_energy_data, validate_crypto_db
 
-API_KEY = 'your_coinmarketcap_api_key'  # Replace with your real key
+# Load API key securely from environment variables instead of hardcoding
+API_KEY = os.getenv('COINMARKETCAP_API_KEY')
+if not API_KEY:
+    raise ValueError("Missing API key. Set COINMARKETCAP_API_KEY as an environment variable.")
+
+# CoinMarketCap API URL for retrieving crypto listings
 URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 
+# API Request Headers
 headers = {
     'Accepts': 'application/json',
     'X-CMC_PRO_API_KEY': API_KEY,
 }
 
+# API Query Parameters - Retrieves top 10 cryptocurrencies
 params = {
     'start': '1',
     'limit': '10',
@@ -20,18 +32,32 @@ params = {
 }
 
 def get_sustainability_score(symbol):
-    scores = {
+    """Assign sustainability scores based on external research and eco-friendliness."""
+    sustainability_scores = {
         'BTC': 40,
         'ETH': 60,
         'ADA': 85,
         'SOL': 80,
         'XRP': 70
     }
-    return scores.get(symbol.upper(), 60)
+    return sustainability_scores.get(symbol.upper(), 60)  # Default to 60 if not listed
 
-def main():
-    response = requests.get(URL, headers=headers, params=params)
-    data = response.json()
+def fetch_crypto_data():
+    """Fetch real-time cryptocurrency data from CoinMarketCap API."""
+    try:
+        response = requests.get(URL, headers=headers, params=params)
+        response.raise_for_status()  # Raise an error for bad responses
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"❌ API request failed: {e}")
+        return None  # Return None to indicate failure
+
+def process_crypto_data():
+    """Process API data and generate a structured crypto database."""
+    data = fetch_crypto_data()
+    if not data or 'data' not in data:
+        print("⚠️ Failed to retrieve cryptocurrency data.")
+        return {}
 
     crypto_db = {}
 
@@ -42,36 +68,16 @@ def main():
             'symbol': symbol,
             'market_cap': coin['quote']['USD']['market_cap'],
             'price': coin['quote']['USD']['price'],
-            'energy_usage_mwh_per_day': None,  # to be updated
+            'energy_usage_mwh_per_day': None,  # Placeholder for energy data
             'sustainability_score': get_sustainability_score(symbol)
         }
 
-    # Update energy usage using data_validator.py logic (live/manual hashrate)
+    # Update energy usage estimates
     crypto_db = update_crypto_energy_data(crypto_db)
+    return crypto_db
 
-    # Save as JSON
-    with open('crypto_db.json', 'w') as f:
-        json.dump(crypto_db, f, indent=4)
-
-    # Save as CSV
-    with open('crypto_db.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Symbol', 'Name', 'Market Cap', 'Price', 'Energy Usage (MWh/day)', 'Sustainability Score'])
-        for symbol, details in crypto_db.items():
-            writer.writerow([
-                symbol,
-                details['name'],
-                details['market_cap'],
-                details['price'],
-                details['energy_usage_mwh_per_day'],
-                details['sustainability_score']
-            ])
-
-    # Run validation
-    print("\nValidation Results:")
-    results = validate_crypto_db(crypto_db)
-    for sym, status in results.items():
-        print(f"{sym}: {status}")
-
-if __name__ == "__main__":
-    main()
+def save_json(data, filename="crypto_db.json"):
+    """Save cryptocurrency data as a formatted JSON file."""
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
+    print(f"✅ JSON data saved to {filename
