@@ -1,79 +1,67 @@
 # CryptoBuddy - AI-Powered Cryptocurrency Advisor 💰🌱
 
 ## 📌 Overview
-CryptoBuddy is a rule-based chatbot designed to help users analyze cryptocurrency investment options based on **profitability** (price trends) and **sustainability** (energy efficiency and eco-friendliness). 
-
-This chatbot enables informed financial decisions while promoting sustainable crypto choices. It leverages predefined data alongside real-time updates via the **CoinMarketCap API**.
+CryptoBuddy is an AI-powered chatbot that provides investment insights based on crypto trends and sustainability metrics. It helps users make informed decisions by balancing profitability with environmental responsibility.
 
 ---
 
 ## 🎯 Features
-✅ **Real-Time Crypto Data** – Fetches latest prices and market caps using CoinMarketCap API.  
-✅ **Sustainability Scoring** – Evaluates eco-friendliness based on energy usage and consensus mechanisms.  
-✅ **Smart Investment Advice** – Recommends cryptocurrencies based on profitability and sustainability balance.  
-✅ **Data Validation** – Ensures accuracy and integrity in crypto insights using validation logic.  
-✅ **Industry-Standard Error Handling** – Protects against API failures and faulty data.  
-✅ **JSON & CSV Export** – Saves structured crypto insights for future reference.  
+✅ Rule-based cryptocurrency recommendations  
+✅ Supports profitability & sustainability-focused decisions  
+✅ Interactive command-line user interface  
+✅ Comprehensive data validation system  
+✅ Extensive test suite for reliability  
+✅ Modular architecture for easy maintenance 
 
 ---
 
 ## 🚀 Installation Guide
-### **1. Clone the Repository**
-```bash
-git clone https://github.com/your-repo/cryptobuddy.git
-cd cryptobuddy
-2. Set Up Environment
-Install dependencies:
+## How to Run
+1. Clone this repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run the chatbot: `python main.py`
+4. Chat with CryptoBuddy and explore crypto insights
 
-bash
-pip install -r requirements.txt
-Set up API key (replace "your_api_key" with an actual CoinMarketCap API key):
-
-bash
-export COINMARKETCAP_API_KEY="your_api_key"
-Or on Windows:
-
-powershell
-set COINMARKETCAP_API_KEY="your_api_key"
-3. Run CryptoBuddy
-Execute the chatbot:
-
-bash
 python main.py
 🧩 Project Structure
-├── CryptoBuddy/
-│   ├── main.py             # Fetches & processes cryptocurrency data
-│   ├── chatbot_core.py     # Handles chatbot responses
-│   ├── data_validator.py   # Validates and updates crypto energy usage
-│   ├── ui_handle.py        # Manages interactive chatbot loop
-│   ├── test_chatbot.py     # Unit tests for chatbot logic
-│   ├── test_data_validator.py # Unit tests for crypto validation
-│   ├── requirements.txt    # Required libraries & dependencies
-│   ├── readme.md           # Project documentation (this file)
-│   ├── crypto_db.json      # Saved crypto data in JSON format
-│   ├── crypto_db.csv       # Saved crypto data in CSV format
-🔍 Lessons Learned
-✅ Successes
-Designed an effective AI-driven chatbot using structured rule-based logic.
+📂 CryptoBuddy/
+├── main.py # Main integration file
+├── chatbot_core.py # Decision logic & algorithms
+├── personality.py # Chatbot personality & responses
+├── ui_handler.py # User interface & interaction
+├── test_chatbot.py # Comprehensive test cases
+├── data_validator.py # Data validation & integrity
+├── README.md # This documentation
+└── requirements.txt # Project dependencies
 
-Ensured data integrity using real-time validation and fallback mechanisms.
+## Example Queries
+- "Which crypto is most profitable?"
+- "Tell me about eco-friendly coins!"
+- "Give me long-term investment suggestions."
+- "Which crypto is trending?"
 
-Implemented secure API handling using environment variables instead of hardcoding sensitive data.
+## Testing
+Run the test suite: `python test_chatbot.py`
 
-Optimized chatbot query processing and investment logic for better user experience.
+## Sustainability Methodology
+The sustainability score is based on:
+- Energy consumption (lower = better score)
+- Environmental initiatives and carbon footprint
+- Consensus mechanism efficiency
+- Community commitment to green practices
 
-❌ Challenges
-API request failures required robust error handling to prevent crashes.
+## Data Sources
+- Cryptocurrency market data simulation
+- Energy consumption estimates
+- Environmental impact assessments
+- For production use, integrate with CoinGecko API
 
-Sustainability scoring was subjective, requiring manual refinement of eco-friendly ranking logic.
-
-File exporting initially had formatting errors—fixed by standardizing CSV output structure.
-
-🛠️ Future Improvements
-🔹 Live Energy Data – Pull real-time network consumption data instead of manual estimates. 🔹 Improved NLP – Enhance chatbot responses using NLP frameworks like NLTK for natural language understanding. 🔹 Personalized Investment Profiles – Allow users to set preferences for risk tolerance, growth strategy, or sustainability bias. 🔹 Multilingual Support – Enable queries and responses in multiple languages for global accessibility. 🔹 Mobile-Friendly UI – Develop a lightweight web or mobile app interface for seamless interactions.
-
-💡 Conclusion
-CryptoBuddy showcases the power of AI-driven financial assistants by offering structured investment advice while promoting eco-conscious cryptocurrency adoption. Whether you're a beginner investor or a sustainability advocate, CryptoBuddy helps you make informed decisions. 🚀🌍
+## Team Members & Contributions
+- Member 1: Database expansion & data validation
+- Member 2: Chatbot personality & conversation design
+- Member 3: Decision algorithms & query parsing
+- Member 4: User interface & testing framework
+- Member 5: Integration & documentation
 
 Feel free to contribute, suggest improvements, or fork the project. Let’s build smarter financial tools together! 💰✨
 
