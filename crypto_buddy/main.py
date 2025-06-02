@@ -80,4 +80,4 @@ def save_json(data, filename="crypto_db.json"):
     """Save cryptocurrency data as a formatted JSON file."""
     with open(filename, 'w') as f:
         json.dump(data, f, indent=4)
-    print(f"✅ JSON data saved to {filename
+    print(f"✅ JSON data saved to {filename}")
